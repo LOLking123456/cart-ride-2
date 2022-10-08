@@ -1,0 +1,494 @@
+local VLib = loadstring(game:HttpGet("https://pastebin.com/raw/Mb49kKTP"))()
+
+
+		MAINTTL = "cart ride around nothing" 
+
+local win = VLib:Window("Legend Handles", Color3.fromRGB(196, 40, 28))
+
+
+local ss = win:Tab("Main")
+
+local ee = win:Tab("Player")
+
+
+local cred = win:Tab("Credits")
+
+
+ss:Button("Bring Cart (OP)",function()
+
+local Vehicle = "Cart"
+
+
+for i = 1, 5 do
+local oldcf = game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.CFrame
+game:GetService("Workspace").Carts[Vehicle]:SetPrimaryPartCFrame(game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.CFrame)
+wait()
+root.CFrame = oldcf
+root.Velocity,root.RotVelocity=v30,v30
+end
+
+
+end)
+
+
+ss:Button("(E) Fly Cart",function()
+    game:GetService('Players').LocalPlayer.Character.Humanoid.Name = "Humanoida"
+repeat wait()
+until game:GetService"Players".LocalPlayer and game:GetService"Players".LocalPlayer.Character and game:GetService"Players".LocalPlayer.Character:findFirstChild("UpperTorso") and game:GetService"Players".LocalPlayer.Character:findFirstChild("Humanoida")
+local mouse = game:GetService"Players".LocalPlayer:GetMouse()
+repeat wait() until mouse
+local plr = game:GetService"Players".LocalPlayer
+local torso = plr.Character.UpperTorso
+local flying = true
+local deb = true
+local ctrl = {f = 0, b = 0, l = 0, r = 0}
+local lastctrl = {f = 0, b = 0, l = 0, r = 0}
+local maxspeed = 100
+local speed = 0
+
+function Fly()
+local bg = Instance.new("BodyGyro", torso)
+bg.P = 9e4
+bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+bg.cframe = torso.CFrame
+local bv = Instance.new("BodyVelocity", torso)
+bv.velocity = Vector3.new(0,0.1,0)
+bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+repeat wait()
+--plr.Character.Humanoida.PlatformStand = true
+if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then
+speed = speed+.5+(speed/maxspeed)
+if speed > maxspeed then
+speed = maxspeed
+end
+elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then
+speed = speed-1
+if speed < 0 then
+speed = 0
+end
+end
+if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then
+bv.velocity = ((game:GetService("Workspace").CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game:GetService("Workspace").CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game:GetService("Workspace").CurrentCamera.CoordinateFrame.p))*speed
+lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r}
+elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then
+bv.velocity = ((game:GetService("Workspace").CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game:GetService("Workspace").CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game:GetService("Workspace").CurrentCamera.CoordinateFrame.p))*speed
+else
+bv.velocity = Vector3.new(0,0.1,0)
+end
+bg.cframe = game:GetService("Workspace").CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0)
+until not flying
+ctrl = {f = 0, b = 0, l = 0, r = 0}
+lastctrl = {f = 0, b = 0, l = 0, r = 0}
+speed = 0
+bg:Destroy()
+bv:Destroy()
+--plr.Character.Humanoida.PlatformStand = false
+end
+mouse.KeyDown:connect(function(key)
+if key:lower() == "e" then
+if flying then flying = false
+else
+flying = true
+Fly()
+end
+elseif key:lower() == "w" then
+ctrl.f = 1
+elseif key:lower() == "s" then
+ctrl.b = -1
+elseif key:lower() == "a" then
+ctrl.l = -1
+elseif key:lower() == "d" then
+ctrl.r = 1
+end
+end)
+mouse.KeyUp:connect(function(key)
+if key:lower() == "w" then
+ctrl.f = 0
+elseif key:lower() == "s" then
+ctrl.b = 0
+elseif key:lower() == "a" then
+ctrl.l = 0
+elseif key:lower() == "d" then
+ctrl.r = 0
+end
+end)
+Fly()
+    end)
+
+ss:Button("Fly v2",function()
+    local Speed = 16
+
+	-- Gui to Lua
+	-- Version: 3.2
+	local HumanoidRP = game.Players.LocalPlayer.Character.HumanoidRootPart
+	-- Instances:
+
+	local ScreenGui = Instance.new("ScreenGui")
+	local W = Instance.new("TextButton")
+	local S = Instance.new("TextButton")
+	local A = Instance.new("TextButton")
+	local D = Instance.new("TextButton")
+	local Fly = Instance.new("TextButton")
+	local unfly = Instance.new("TextButton")
+	local StopFly = Instance.new("TextButton")
+
+	--Properties:
+
+	ScreenGui.Parent = game.CoreGui
+	ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+	unfly.Name = "unfly"
+	unfly.Parent = ScreenGui
+	unfly.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	unfly.Position = UDim2.new(0.694387913, 0, 0.181818187, 0)
+	unfly.Size = UDim2.new(0, 72, 0, 50)
+	unfly.Font = Enum.Font.SourceSans
+	unfly.Text = "unfly"
+	unfly.TextColor3 = Color3.fromRGB(170, 0, 255)
+	unfly.TextScaled = true
+	unfly.TextSize = 14.000
+	unfly.TextWrapped = 
+		unfly.MouseButton1Down:Connect(function()
+		HumanoidRP:FindFirstChildOfClass("BodyVelocity"):Destroy()
+		HumanoidRP:FindFirstChildOfClass("BodyGyro"):Destroy()
+	end)
+
+	StopFly.Name = "Stop Fly"
+	StopFly.Parent = ScreenGui
+	StopFly.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	StopFly.Position = UDim2.new(0.695689976, 0, 0.0213903747, 0)
+	StopFly.Size = UDim2.new(0, 71, 0, 50)
+	StopFly.Font = Enum.Font.SourceSans
+	StopFly.Text = "Stop fly"
+	StopFly.TextColor3 = Color3.fromRGB(170, 0, 255)
+	StopFly.TextScaled = true
+	StopFly.TextSize = 14.000
+	StopFly.TextWrapped = true
+	StopFly.MouseButton1Down:Connect(function()
+		HumanoidRP.Anchored = true
+	end)
+
+	Fly.Name = "Fly"
+	Fly.Parent = ScreenGui
+	Fly.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Fly.Position = UDim2.new(0.588797748, 0, 0.0213903747, 0)
+	Fly.Size = UDim2.new(0, 66, 0, 50)
+	Fly.Font = Enum.Font.SourceSans
+	Fly.Text = "Fly"
+	Fly.TextColor3 = Color3.fromRGB(170, 0, 127)
+	Fly.TextScaled = true
+	Fly.TextSize = 14.000
+	Fly.TextWrapped = true
+	Fly.MouseButton1Down:Connect(function()
+		local BV = Instance.new("BodyVelocity",HumanoidRP)
+		local BG = Instance.new("BodyGyro",HumanoidRP)
+		BG.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+		BG.D = 5000
+		BG.P = 50000
+		BG.CFrame = game.Workspace.CurrentCamera.CFrame
+		BV.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+	end)
+
+	W.Name = "W"
+	W.Parent = ScreenGui
+	W.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	W.Position = UDim2.new(0.161668837, 0, 0.601604283, 0)
+	W.Size = UDim2.new(0, 58, 0, 50)
+	W.Font = Enum.Font.SourceSans
+	W.Text = "↑"
+	W.TextColor3 = Color3.fromRGB(226, 226, 526)
+	W.TextScaled = true
+	W.TextSize = 5.000
+	W.TextWrapped = true
+	W.MouseButton1Down:Connect(function()
+		HumanoidRP.Anchored = false
+		HumanoidRP:FindFirstChildOfClass("BodyVelocity"):Destroy()
+		HumanoidRP:FindFirstChildOfClass("BodyGyro"):Destroy()
+		wait(.1)
+		local BV = Instance.new("BodyVelocity",HumanoidRP)
+		local BG = Instance.new("BodyGyro",HumanoidRP)
+		BG.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+		BG.D = 50000
+		BG.P = 50000
+		BG.CFrame = game.Workspace.CurrentCamera.CFrame
+		BV.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+		BV.Velocity = game.Workspace.CurrentCamera.CFrame.LookVector * Speed
+	end)
+
+
+	S.Name = "S"
+	S.Parent = ScreenGui
+	S.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	S.Position = UDim2.new(0.161668837, 0, 0.735294104, 0)
+	S.Size = UDim2.new(0, 58, 0, 50)
+	S.Font = Enum.Font.SourceSans
+	S.Text = "↓"
+	S.TextColor3 = Color3.fromRGB(255, 255, 255)
+	S.TextScaled = true
+	S.TextSize = 14.000
+	S.TextWrapped = true
+	S.MouseButton1Down:Connect(function()
+		HumanoidRP.Anchored = false
+		HumanoidRP:FindFirstChildOfClass("BodyVelocity"):Destroy()
+		HumanoidRP:FindFirstChildOfClass("BodyGyro"):Destroy()
+		wait(.1)
+		local BV = Instance.new("BodyVelocity",HumanoidRP)
+		local BG = Instance.new("BodyGyro",HumanoidRP)
+		BG.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+		BG.D = 5000
+		BG.P = 50000
+		BG.CFrame = game.Workspace.CurrentCamera.CFrame
+		BV.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+		BV.Velocity = game.Workspace.CurrentCamera.CFrame.LookVector * -Speed
+	end)
+end)
+
+ ss:Toggle("Mute Cart Sounds",function(tog)
+     
+     while true do
+      for _, v in pairs (game.workspace:GetDescendants())do
+if v.Name == 'AccelerateLoop' then 
+v:Destroy()
+end
+end
+wait(2)
+     end
+     end)
+  ss:Button("Change Cart Speed",function()
+      while true do
+  for _, v in pairs (game.workspace:GetDescendants())do
+if v.Name == 'VehicleSeat' then 
+v.MaxSpeed = 500
+end
+end
+wait(0)
+end
+end)
+
+  ss:Button("Change Cart Turn Speed",function()
+     while true do
+  for _, v in pairs (game.workspace:GetDescendants())do
+if v.Name == 'VehicleSeat' then 
+v.TurnSpeed = 500
+end
+end
+wait(0)
+end
+end)
+
+
+ ss:Button("Cart ESP",function()
+ while true do
+while wait(1) do
+ for _, v in pairs (game.workspace:GetDescendants())do
+		if v.Name == "CartBase" then
+	 local esp = Instance.new("Highlight")
+	 esp.Name = "CartBase"
+	 esp.FillTransparency = 0
+	 esp.FillColor = Color3.new(255, 0, 0)
+	 esp.OutlineColor = Color3.new(242, 243, 243)
+	 esp.OutlineTransparency = 0.5
+	 esp.Parent = v
+	 v.Transparency = 0
+		end
+	end
+end
+wait(5)
+end
+end)
+ss:Button("Player ESP",function()
+ -- settings
+local settings = {
+   defaultcolor = Color3.fromRGB(255,0,0),
+   teamcheck = false,
+   teamcolor = true
+};
+
+-- services
+local runService = game:GetService("RunService");
+local players = game:GetService("Players");
+
+-- variables
+local localPlayer = players.LocalPlayer;
+local camera = workspace.CurrentCamera;
+
+-- functions
+local newVector2, newColor3, newDrawing = Vector2.new, Color3.new, Drawing.new;
+local tan, rad = math.tan, math.rad;
+local round = function(...) local a = {}; for i,v in next, table.pack(...) do a[i] = math.round(v); end return unpack(a); end;
+local wtvp = function(...) local a, b = camera.WorldToViewportPoint(camera, ...) return newVector2(a.X, a.Y), b, a.Z end;
+
+local espCache = {};
+local function createEsp(player)
+   local drawings = {};
+   
+   drawings.box = newDrawing("Square");
+   drawings.box.Thickness = 1;
+   drawings.box.Filled = false;
+   drawings.box.Color = settings.defaultcolor;
+   drawings.box.Visible = false;
+   drawings.box.ZIndex = 2;
+
+   drawings.boxoutline = newDrawing("Square");
+   drawings.boxoutline.Thickness = 3;
+   drawings.boxoutline.Filled = false;
+   drawings.boxoutline.Color = newColor3();
+   drawings.boxoutline.Visible = false;
+   drawings.boxoutline.ZIndex = 1;
+
+   espCache[player] = drawings;
+end
+
+local function removeEsp(player)
+   if rawget(espCache, player) then
+       for _, drawing in next, espCache[player] do
+           drawing:Remove();
+       end
+       espCache[player] = nil;
+   end
+end
+
+local function updateEsp(player, esp)
+   local character = player and player.Character;
+   if character then
+       local cframe = character:GetModelCFrame();
+       local position, visible, depth = wtvp(cframe.Position);
+       esp.box.Visible = visible;
+       esp.boxoutline.Visible = visible;
+
+       if cframe and visible then
+           local scaleFactor = 1 / (depth * tan(rad(camera.FieldOfView / 2)) * 2) * 1000;
+           local width, height = round(4 * scaleFactor, 5 * scaleFactor);
+           local x, y = round(position.X, position.Y);
+
+           esp.box.Size = newVector2(width, height);
+           esp.box.Position = newVector2(round(x - width / 2, y - height / 2));
+           esp.box.Color = settings.teamcolor and player.TeamColor.Color or settings.defaultcolor;
+
+           esp.boxoutline.Size = esp.box.Size;
+           esp.boxoutline.Position = esp.box.Position;
+       end
+   else
+       esp.box.Visible = false;
+       esp.boxoutline.Visible = false;
+   end
+end
+
+-- main
+for _, player in next, players:GetPlayers() do
+   if player ~= localPlayer then
+       createEsp(player);
+   end
+end
+
+players.PlayerAdded:Connect(function(player)
+   createEsp(player);
+end);
+
+players.PlayerRemoving:Connect(function(player)
+   removeEsp(player);
+end)
+
+runService:BindToRenderStep("esp", Enum.RenderPriority.Camera.Value, function()
+   for player, drawings in next, espCache do
+       if settings.teamcheck and player.Team == localPlayer.Team then
+           continue;
+       end
+
+       if drawings and player ~= localPlayer then
+           updateEsp(player, drawings);
+       end
+   end
+end)
+     end)
+  ss:Button("Free Camera",function()
+local LocalPlayer = game:GetService("Players").LocalPlayer
+		LocalPlayer.CameraMaxZoomDistance = 9e9
+		LocalPlayer.DevCameraOcclusionMode = Enum.DevCameraOcclusionMode.Invisicam
+end)
+
+ee:Button("Join Lowest Player Server",function()
+    local Http = game:GetService("HttpService")
+local TPS = game:GetService("TeleportService")
+local Api = "https://games.roblox.com/v1/games/"
+
+local _place = game.PlaceId
+local _servers = Api.._place.."/servers/Public?sortOrder=Asc&limit=100"
+function ListServers(cursor)
+   local Raw = game:HttpGet(_servers .. ((cursor and "&cursor="..cursor) or ""))
+   return Http:JSONDecode(Raw)
+end
+
+local Server, Next; repeat
+   local Servers = ListServers(Next)
+   Server = Servers.data[1]
+   Next = Servers.nextPageCursor
+until Server
+
+TPS:TeleportToPlaceInstance(_place,Server.id,game.Players.LocalPlayer)
+end)
+
+  ee:Button("Rejoin",function()
+      game:GetService("TeleportService"):Teleport(10660791703, LocalPlayer)
+      
+      end)
+      
+        ee:Button("Server Hop",function()
+                game:GetService("TeleportService"):Teleport(10660791703, LocalPlayer)
+            end)
+
+ ee:Toggle("Infinite Jump",function(tog)
+ if tog then
+_G.infinjump = true
+local Player = game:GetService("Players").LocalPlayer
+local Mouse = Player:GetMouse()
+Mouse.KeyDown:connect(function(k)
+if _G.infinjump then
+if k:byte() == 32 then
+Humanoid = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+Humanoid:ChangeState("Jumping")
+wait(0.1)
+Humanoid:ChangeState("Seated")
+end
+end
+end)
+local Player = game:GetService("Players").LocalPlayer
+local Mouse = Player:GetMouse()
+    else
+if _G.infinjump == true then
+_G.infinjump = false
+else
+_G.infinjump = true
+end
+end
+ end)
+
+  ee:Slider("WalkSpeed",16,500,0,function(v)
+ getgenv().WalkSpeedValue = (v); --set your desired walkspeed here
+local Player = game:service'Players'.LocalPlayer;
+Player.Character.Humanoid:GetPropertyChangedSignal'WalkSpeed':Connect(function()
+Player.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue;
+end)
+Player.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue;
+  end)
+  
+  
+   ee:Slider("FOV",70,120,0,function(v)
+       local amount = (v)
+
+game:GetService'Workspace'.Camera.FieldOfView = (v)
+
+
+   end)
+   
+
+cred:Button("Copy Discord Server",function()
+setclipboard("https://discord.gg/dtQKPPCyfK")
+end) 
+
+cred:Label("Made by: Legend HandlesYT")
+
+cred:Button("Close Gui",function()
+game.CoreGui["Library"]:Destroy()
+end)
+
